@@ -71,6 +71,11 @@ def search(q: str):
     print(f"[DEBUG] Query: {q!r}")
     print(f"[DEBUG] Info keys: {list(info.keys()) if info else 'None'}")
     print(f"[DEBUG] Nb entries bruts: {len(info.get('entries', [])) if info else 0}")
+    print(f"[DEBUG] _type: {info.get('_type')}")
+    print(f"[DEBUG] url: {info.get('url')}")
+    print(f"[DEBUG] extractor: {info.get('extractor')}")
+    print(f"[DEBUG] extractor_key: {info.get('extractor_key')}")
+    print(f"[DEBUG] webpage_url: {info.get('webpage_url')}")
 
     results = []
     for entry in info.get("entries", []):
