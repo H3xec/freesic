@@ -63,7 +63,7 @@ def search(q: str):
 
     try:
         with yt_dlp.YoutubeDL(YDL_SEARCH_OPTS) as ydl:
-            info = ydl.extract_info(q, download=False)
+            info = ydl.extract_info(f"ytsearch10:{q}", download=False)
     except Exception as e:
         print(f"[DEBUG] Exception yt-dlp: {repr(e)}")
         raise HTTPException(500, f"Erreur yt-dlp: {e}")
