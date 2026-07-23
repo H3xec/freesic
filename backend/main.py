@@ -46,7 +46,7 @@ def search(q: str):
     if not q.strip():
         raise HTTPException(400, "Paramètre 'q' manquant")
 
-try:
+    try:
         with yt_dlp.YoutubeDL(YDL_SEARCH_OPTS) as ydl:
             info = ydl.extract_info(q, download=False)
     except Exception as e:
