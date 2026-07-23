@@ -15,6 +15,7 @@ http://<IP_DE_TON_MAC>:8000
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import yt_dlp
+import os
 
 app = FastAPI(title="YTMusic Backend")
 
@@ -26,11 +27,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Render monte les "Secret Files" à /etc/secrets/. En local (ton PC), ce fichier
+# n'existe pas, donc on continue sans cookies (peut suffire en local, IP résidentielle).
+COOKIES_PATH = "/etc/secrets/cookies.txt"
+_cookies_option = {"cookiefile": COOKIES_PATH} if os.path.exists(COOKIES_PATH) else {}
+
 YDL_SEARCH_OPTS = {
     "quiet": True,
     "extract_flat": True,
     "default_search": "ytsearch10",
     "skip_download": True,
+    **_cookies_option,
 }
 
 YDL_STREAM_OPTS = {
@@ -38,6 +45,7 @@ YDL_STREAM_OPTS = {
     "format": "bestaudio/best",
     "noplaylist": True,
     "skip_download": True,
+    **_cookies_option,
 }
 
 
