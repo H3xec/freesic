@@ -27,9 +27,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Render monte les "Secret Files" à /etc/secrets/. En local (ton PC), ce fichier
-# n'existe pas, donc on continue sans cookies (peut suffire en local, IP résidentielle).
-COOKIES_PATH = "/etc/secrets/cookies.txt"
+import shutil
+
+# Render monte les "Secret Files" en LECTURE SEULE à /etc/secrets/, mais yt-dlp
+# a besoin d'écrire dans le fichier de cookies. On copie donc vers /tmp (writable).
+RENDER_SECRET_COOKIES = "/etc/secrets/cookies.txt"
+COOKIES_PATH = "/tmp/cookies.txt"
+
+if os.path.exists(RENDER_SECRET_COOKIES):
+    shutil.copyfile(RENDER_SECRET_COOKIES, COOKIES_PATH)
+
 _cookies_option = {"cookiefile": COOKIES_PATH} if os.path.exists(COOKIES_PATH) else {}
 
 YDL_SEARCH_OPTS = {
