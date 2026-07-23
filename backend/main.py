@@ -52,6 +52,11 @@ YDL_STREAM_OPTS = {
     "format": "bestaudio/best",
     "noplaylist": True,
     "skip_download": True,
+    "extractor_args": {
+        "youtube": {
+            "player_client": ["android", "web"],
+        }
+    },
     **_cookies_option,
 }
 
@@ -98,6 +103,7 @@ def stream(id: str):
         with yt_dlp.YoutubeDL(YDL_STREAM_OPTS) as ydl:
             info = ydl.extract_info(url, download=False)
     except Exception as e:
+        print(f"[DEBUG stream] Exception: {repr(e)}")
         raise HTTPException(500, f"Extraction impossible: {e}")
 
     audio_url = info.get("url")
