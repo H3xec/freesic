@@ -46,8 +46,16 @@ def search(q: str):
     if not q.strip():
         raise HTTPException(400, "Paramètre 'q' manquant")
 
-    with yt_dlp.YoutubeDL(YDL_SEARCH_OPTS) as ydl:
-        info = ydl.extract_info(q, download=False)
+try:
+        with yt_dlp.YoutubeDL(YDL_SEARCH_OPTS) as ydl:
+            info = ydl.extract_info(q, download=False)
+    except Exception as e:
+        print(f"[DEBUG] Exception yt-dlp: {repr(e)}")
+        raise HTTPException(500, f"Erreur yt-dlp: {e}")
+
+    print(f"[DEBUG] Query: {q!r}")
+    print(f"[DEBUG] Info keys: {list(info.keys()) if info else 'None'}")
+    print(f"[DEBUG] Nb entries bruts: {len(info.get('entries', [])) if info else 0}")
 
     results = []
     for entry in info.get("entries", []):
