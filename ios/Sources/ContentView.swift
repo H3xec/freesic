@@ -2,7 +2,7 @@ import SwiftUI
 
 // ⚠️ Remplace par l'adresse IP locale de ton Mac (ipconfig getifaddr en0)
 // tant que le backend tourne en local sur le même wifi.
-let BACKEND_URL = "http://192.168.1.26:8000"
+let BACKEND_URL = "https://freesic-backend.onrender.com"
 
 struct ContentView: View {
     @State private var query = ""
